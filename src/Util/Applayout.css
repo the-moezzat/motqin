@@ -1,0 +1,54 @@
+.applayout {
+  height: 100vh;
+  display: flex;
+  justify-content: space-between;
+}
+.headerLayout {
+  display: flex;
+  justify-content: center;
+}
+
+.openSideBarIcon {
+  height: 20px;
+  width: 20px;
+  right: 25px;
+  top: 110px;
+  cursor: pointer;
+}
+.main {
+  margin-top: 80px;
+}
+
+.media-close-sidebar {
+  width: 18%;
+  border-left: 1px solid #692bef4f;
+  position: fixed;
+  top: 75px;
+  right: 0;
+}
+
+@media (max-width: 600px) {
+  .media-close-sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    background-color: white;
+    box-shadow: 1px 1px 6px 0px black;
+    width: 50%;
+  }
+}
+@media (min-width: 600px) and (max-width: 1023px) {
+  .media-close-sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    background-color: white;
+    box-shadow: 1px 1px 6px 0px black;
+    width: 30%;
+  }
+}
+
+.closeSideBar {
+  width: 60px;
+  transition: display 1s;
+}

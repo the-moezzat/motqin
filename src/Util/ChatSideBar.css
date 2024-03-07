@@ -1,0 +1,77 @@
+.allsidebar {
+  position: fixed;
+  top: 68px;
+  right: 0;
+  padding: 0 20px;
+  border-left: 1px solid #001a7982;
+  background: white;
+  padding-top: 20px;
+}
+.chats {
+  overflow-y: auto;
+  overflow: auto;
+  height: 471px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+}
+.chats::-webkit-scrollbar {
+  display: none;
+}
+.chat {
+  display: flex;
+  gap: 5px;
+  cursor: pointer;
+  padding: 5px 4px;
+  border-radius: 5px;
+}
+.chat:hover {
+  background: #001a7944;
+}
+.add-chat {
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid;
+  width: 100%;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  border: 1px solid #001a7944;
+  cursor: pointer;
+}
+.fixed {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.search-container {
+  position: relative;
+  width: 100%;
+  border: 1px solid #001a7944;
+  border-radius: 8px;
+  padding: 5px 5px;
+}
+.search-container input {
+  border: none;
+  outline: none;
+  padding-left: 20px;
+  text-align: center;
+  color: #001a7944;
+}
+.search-container input::placeholder {
+  color: #001a7944;
+}
+.search-container svg {
+  position: absolute;
+  top: 50%;
+  left: 8px;
+  transform: translateY(-50%);
+}
+.head-of-chats {
+  color: #001b79;
+  font-size: 16px;
+  opacity: 50%;
+  margin-top: 10px;
+}
