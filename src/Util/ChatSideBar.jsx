@@ -6,10 +6,10 @@ import { IoClose } from "react-icons/io5";
 import { BiPlusMedical } from "react-icons/bi";
 import { TfiSearch } from "react-icons/tfi";
 
-import "../components/ChatRoutes/ChatRoutes.css";
+// import "../components/ChatRoutes/ChatRoutes.css";
 import switcherIcon from "../assets/Images/sideBar/toggleSidebar.png";
 import chatIconPages from "../assets/Images/sideBar/chatIconPage.png";
-import "../pages/ChatRoutes/StartChatPage.css";
+// import "../pages/ChatRoutes/StartChatPage.css";
 
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { getAllChats } from "../actions/chat";

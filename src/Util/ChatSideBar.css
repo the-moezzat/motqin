@@ -1,5 +1,5 @@
 .allsidebar {
-  position: fixed;
+  /*position: fixed;*/
   top: 68px;
   right: 0;
   padding: 0 20px;
@@ -31,15 +31,14 @@
 }
 .add-chat {
   padding: 10px 20px;
-  display: flex;
   justify-content: space-between;
-  border: 1px solid;
   width: 100%;
   border-radius: 8px;
   display: flex;
   align-items: center;
   border: 1px solid #001a7944;
   cursor: pointer;
+  gap: 12px;
 }
 .fixed {
   display: flex;

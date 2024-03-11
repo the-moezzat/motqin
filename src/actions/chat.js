@@ -3,7 +3,7 @@ import axios from "axios";
 const url = "https://srv475086.hstgr.cloud/api"; //import.meta.env.VITE_BACKEND_BASE_URL;
 
 const token =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA5MjM5NzU5LCJpYXQiOjE3MDc5NDM3NTksImp0aSI6ImFlMDM2MTA5NTY2MzQ5ODhiZmE3NjE3YTNlNWVkOGY0IiwidXNlcl9pZCI6MjN9.nYqz1ZdyfnY50vaxGqVGpm7B4J3X5sywppbq7Gl6cpU";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEwNTM2MTUxLCJpYXQiOjE3MDkyNDAxNTEsImp0aSI6IjVhZjBlMGEyMWQzOTQ5Y2E4OTMyNTU3NjBmN2RjMzdlIiwidXNlcl9pZCI6MjN9.ky97KcdrHdTAl0R2JRRVxg5WdcFUDaRyc1D3i4XylIs";
 
 export const getAllChats = async () => {
   try {

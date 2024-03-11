@@ -5,6 +5,13 @@ body {
   background-color: #ffffff !important;
   overflow-x: hidden !important;
 }
+.color-main {
+  color: #5225CE;
+}
+.flip-horizontal {
+  transform: scaleX(-1);
+}
+
 .btn-pink {
   background-color: #ed5ab3;
   color: white;
