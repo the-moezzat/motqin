@@ -7,7 +7,7 @@ export default function useStartChat() {
     const {model: currentModel} = useActiveModel()
     const navigate = useNavigate()
 
-    const {mutate, isLoading, isError, data} = useMutation({
+    const {mutate: startChat, isLoading, isError, data} = useMutation({
         mutationFn: async ({title, message, model = currentModel}) => {
             const headers = {
                 "Content-Type": "application/json",
@@ -32,5 +32,5 @@ export default function useStartChat() {
         }
     })
 
-    return {mutate, isLoading, isError, data}
+    return {startChat, isLoading, isError, data}
 }

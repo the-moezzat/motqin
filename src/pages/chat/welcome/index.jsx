@@ -6,11 +6,21 @@ import MessageInput from "../_components/MessageInput";
 import styled from "styled-components";
 import useStartChat from "../_hooks/useStartChat";
 import {useNavigate} from "react-router-dom";
+import {useQueryClient} from "react-query";
 
 const examples = [
-    {title: 'إنشاء استراتيجية تسويق', description: " ما هي العوامل الأساسية التي يجب مراعاتها عند إنشاء استراتيجية تسويق رقمي شاملة؟"},
-    {title: 'التخطيط لحملة على وسائل التواصل الاجتماعي', description: "قم بصياغة حملة على وسائل التواصل الاجتماعي لبراند ملابس."},
-    {title: 'زيادة معدلات النقر إلى الظهور', description: "اقترح طرق مبتكرة لزيادة معدلات النقر على رسائل البريد الإلكتروني."},
+    {
+        title: 'إنشاء استراتيجية تسويق',
+        description: " ما هي العوامل الأساسية التي يجب مراعاتها عند إنشاء استراتيجية تسويق رقمي شاملة؟"
+    },
+    {
+        title: 'التخطيط لحملة على وسائل التواصل الاجتماعي',
+        description: "قم بصياغة حملة على وسائل التواصل الاجتماعي لبراند ملابس."
+    },
+    {
+        title: 'زيادة معدلات النقر إلى الظهور',
+        description: "اقترح طرق مبتكرة لزيادة معدلات النقر على رسائل البريد الإلكتروني."
+    },
     {title: 'تحسين تجربة خدمة العملاء لدينا', description: "اقترح علينا كيف يمكننا تحسين تجربة خدمة العملاء لدينا؟"}
 ]
 
@@ -53,20 +63,21 @@ const ExamplesGrid = styled.div`
 
 function Welcome() {
 
-    const {mutate, isLoading} = useStartChat()
+    const {startChat, isLoading} = useStartChat()
     const navigate = useNavigate();
+    const queryClient = useQueryClient();
 
 
-    const handleSubmit = (title ,message) => {
-        console.log(message)
-        mutate({title, message}, {
+    const handleSubmit = (title, message) => {
+        startChat({title, message}, {
             onSuccess: (data) => {
-            console.log(data)
-            navigate(`/chat/${data.id}?message=${message}`)
-        },
+                console.log(data)
+                navigate(`/chat/${data.id}?message=${message}`)
+                queryClient.invalidateQueries('chats');
+            },
             onError: (error) => {
-            console.log(error)
-        }
+                console.log(error)
+            }
         })
     }
 
@@ -77,7 +88,7 @@ function Welcome() {
             </div>
             <Stack direction={'vertical'} gap={2}>
                 <ChatHeader>
-                    <ChatLogo src={'/src/assets/logo.svg'}  alt={'Motqin logo'}/>
+                    <ChatLogo src={'/src/assets/logo.svg'} alt={'Motqin logo'}/>
                     <div>
                         <Headline>
                             مرحبا بك في مُتقِن شات
@@ -91,7 +102,8 @@ function Welcome() {
                 <Stack direction={'vertical'} gap={3}>
                     <ExamplesGrid>
                         {examples.map((example, index) => (
-                            <ChatExample key={index} title={example.title} description={example.description} onClick={() => handleSubmit(example.title, example.description)}/>
+                            <ChatExample key={index} title={example.title} description={example.description}
+                                         onClick={() => handleSubmit(example.title, example.description)}/>
                         ))}
                     </ExamplesGrid>
                     <MessageInput onSubmit={(message) => handleSubmit(message, message)} isDisabled={isLoading}/>

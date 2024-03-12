@@ -2,7 +2,8 @@ import React from 'react';
 import Navbar from "../../Util/Navbar";
 import {Row, Col, Stack} from 'react-bootstrap';
 import {Outlet} from "react-router-dom";
-import ChatSideBar from "../../Util/ChatSideBar";
+import ChatSideBar from "./_components/ChatSideBar";
+import Model from "../../components/ui/model";
 
 
 function ChatLayout() {

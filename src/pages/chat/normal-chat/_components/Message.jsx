@@ -3,6 +3,9 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import {PiArrowClockwise, PiArrowRight, PiCopy, PiDownloadSimple} from "react-icons/pi";
 import Button from "react-bootstrap/Button";
+import useStartChat from "../../_hooks/useStartChat";
+import {useNavigate} from "react-router-dom";
+import {useQueryClient} from "react-query";
 
 const Avatar = styled.img`
     width: 40px;
@@ -44,6 +47,10 @@ const MessageActionBtn = styled(Button)`
     }
 `
 function Message({from, message, isResponding}) {
+    const {startChat} = useStartChat();
+    const navigate = useNavigate();
+    const queryClient = useQueryClient()
+
     return (
             <Row>
                 <Avatar src={`/src/assets/${from === 'user' ? 'images/Avatar.jpg' : 'logo.svg'}`} alt={'user image'} className={'align-items-end'}/>
@@ -53,15 +60,24 @@ function Message({from, message, isResponding}) {
                     </MessageText>
                     {from === 'ai' && !isResponding &&
                         <IconRow>
-                            <MessageActionBtn  variant={''}>
+                            <MessageActionBtn  variant={''} onClick={() => {
+                                startChat({title: message.split(' ').slice(0, 10).join(' ').replaceAll('*', ''), message}, {
+                                    onSuccess: async (data) => {
+                                        navigate('/chat/' + data.id + '?message=' + message);
+                                        await queryClient.invalidateQueries('chats')
+                                    }
+                                });
+                            }}>
                                 <PiArrowRight/>
                             </MessageActionBtn>
-                            <MessageActionBtn variant={''}>
+                            <MessageActionBtn variant={''} onClick={async () => {
+                                await navigator.clipboard.writeText(message);
+                            }}>
                                 <PiCopy/>
                             </MessageActionBtn>
-                            <MessageActionBtn variant={''}>
-                                <PiArrowClockwise/>
-                            </MessageActionBtn>
+                            {/*<MessageActionBtn variant={''}>*/}
+                            {/*    <PiArrowClockwise/>*/}
+                            {/*</MessageActionBtn>*/}
                             <MessageActionBtn  variant={''}>
                                 <PiDownloadSimple/>
                             </MessageActionBtn>

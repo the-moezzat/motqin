@@ -11,7 +11,15 @@ body {
 .flip-horizontal {
   transform: scaleX(-1);
 }
-
+.border-none {
+  border: none;
+}
+.z-high {
+  z-index: 1000;
+}
+.z-low {
+  z-index: 100;
+}
 .btn-pink {
   background-color: #ed5ab3;
   color: white;

@@ -34,21 +34,23 @@ function NormalChat() {
     const [userMessage, setUserMessage] = React.useState('');
     const dispatch = useDispatch();
     const currentConversation = useSelector(state => state.chat.currentConversation);
+    const [messages, setMessages] = useState([]);
 
-    const {isLoading, isError, data, refetch, isRefetching} = useQuery({
+    const {isLoading, data, refetch} = useQuery({
         queryKey: ['chat'],
         queryFn: async () => {
-            const response = await axios.get(`https://srv475086.hstgr.cloud/api/v1/chatbot/conversations/${currentConversation}/messages/`, {
+            const response = await axios.get(`https://srv475086.hstgr.cloud/api/v1/chatbot/conversations/${currentConversation || chatId}/messages/`, {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
                 }
             })
             return response.data;
         },
+        onSuccess() {
+            setMessages(data.results.toReversed())
+        },
         staleTime: Infinity
     })
-
-    const messages = !isLoading || data ? data?.results?.toReversed() : [];
 
     const {mutate, isLoading: isWriting} = useMutation({
         mutationKey: ['chat'],
@@ -82,7 +84,8 @@ function NormalChat() {
     }, [currentConversation]);
 
     useEffect(() => {
-        dispatch(setCurrentConversation(chatId));
+        // dispatch(setCurrentConversation(chatId));
+
         if (!searchParams.get('message')) return;
         mutate(searchParams.get('message'))
     }, [searchParams.get('message')])
