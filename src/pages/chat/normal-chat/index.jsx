@@ -34,7 +34,6 @@ function NormalChat() {
     const [userMessage, setUserMessage] = React.useState('');
     const dispatch = useDispatch();
     const currentConversation = useSelector(state => state.chat.currentConversation);
-    const [messages, setMessages] = useState([]);
 
     const {isLoading, data, refetch} = useQuery({
         queryKey: ['chat'],
@@ -46,11 +45,10 @@ function NormalChat() {
             })
             return response.data;
         },
-        onSuccess() {
-            setMessages(data.results.toReversed())
-        },
         staleTime: Infinity
     })
+
+    const messages = !isLoading || data ? data?.results?.toReversed() : [];
 
     const {mutate, isLoading: isWriting} = useMutation({
         mutationKey: ['chat'],
@@ -84,8 +82,7 @@ function NormalChat() {
     }, [currentConversation]);
 
     useEffect(() => {
-        // dispatch(setCurrentConversation(chatId));
-
+        dispatch(setCurrentConversation(chatId));
         if (!searchParams.get('message')) return;
         mutate(searchParams.get('message'))
     }, [searchParams.get('message')])
