@@ -5,6 +5,7 @@ const Example = styled.div`
     padding: 16px;
     border: 1px solid rgba(0, 27, 121, 0.2);
     border-radius: 8px;
+    cursor: pointer;
 `
 
 const Title = styled.h3`
@@ -15,11 +16,11 @@ const Title = styled.h3`
 const Description = styled.p`
     font-size: 12px;
     color: rgba(0, 27, 121, 0.5);
-    margin-bottom: 0px;
+    margin-bottom: 0;
 `
-function ChatExample({title, description}) {
+function ChatExample({title, description, onClick}) {
     return (
-        <Example dir={'rtl'}>
+        <Example dir={'rtl'} onClick={onClick}>
             <Title>{title}</Title>
             <Description>{description}</Description>
         </Example>

@@ -8,9 +8,8 @@
   padding-top: 20px;
 }
 .chats {
-  overflow-y: auto;
   overflow: auto;
-  height: 471px;
+  height: 100%;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -19,16 +18,7 @@
 .chats::-webkit-scrollbar {
   display: none;
 }
-.chat {
-  display: flex;
-  gap: 5px;
-  cursor: pointer;
-  padding: 5px 4px;
-  border-radius: 5px;
-}
-.chat:hover {
-  background: #001a7944;
-}
+
 .add-chat {
   padding: 10px 20px;
   justify-content: space-between;

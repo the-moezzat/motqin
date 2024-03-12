@@ -1,11 +1,18 @@
 import React from 'react';
-import ChooseModel from "../../../components/ui/ChooseModel";
+import ChooseModel from "../_components/ChooseModel";
 import {Stack} from "react-bootstrap";
 import ChatExample from "../_components/ChatExample";
 import MessageInput from "../_components/MessageInput";
 import styled from "styled-components";
-import {useMutation} from "react-query";
-import axios from "axios";
+import useStartChat from "../_hooks/useStartChat";
+import {useNavigate} from "react-router-dom";
+
+const examples = [
+    {title: 'إنشاء استراتيجية تسويق', description: " ما هي العوامل الأساسية التي يجب مراعاتها عند إنشاء استراتيجية تسويق رقمي شاملة؟"},
+    {title: 'التخطيط لحملة على وسائل التواصل الاجتماعي', description: "قم بصياغة حملة على وسائل التواصل الاجتماعي لبراند ملابس."},
+    {title: 'زيادة معدلات النقر إلى الظهور', description: "اقترح طرق مبتكرة لزيادة معدلات النقر على رسائل البريد الإلكتروني."},
+    {title: 'تحسين تجربة خدمة العملاء لدينا', description: "اقترح علينا كيف يمكننا تحسين تجربة خدمة العملاء لدينا؟"}
+]
 
 const Main = styled.div`
     padding: 14px;
@@ -46,34 +53,21 @@ const ExamplesGrid = styled.div`
 
 function Welcome() {
 
-    const {mutate} = useMutation(async (message) => {
-            const headers = {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEwNTM2MTUxLCJpYXQiOjE3MDkyNDAxNTEsImp0aSI6IjVhZjBlMGEyMWQzOTQ5Y2E4OTMyNTU3NjBmN2RjMzdlIiwidXNlcl9pZCI6MjN9.ky97KcdrHdTAl0R2JRRVxg5WdcFUDaRyc1D3i4XylIs"
-            };
+    const {mutate, isLoading} = useStartChat()
+    const navigate = useNavigate();
 
-            const data = {
-                title: "My Title",
-                favourite: false,
-                archive: false
-            };
-           const chat = await axios.post('https://srv475086.hstgr.cloud/api/v1/chatbot/conversations/', data, {headers})
 
-        return chat.data
-        },
-   {
-        onSuccess: (data) => {
+    const handleSubmit = (title ,message) => {
+        console.log(message)
+        mutate({title, message}, {
+            onSuccess: (data) => {
             console.log(data)
+            navigate(`/chat/${data.id}?message=${message}`)
         },
-        onError: (error) => {
+            onError: (error) => {
             console.log(error)
         }
-    }
-)
-
-    const handleSubmit = (message) => {
-        console.log(message)
-        mutate(message)
+        })
     }
 
     return (
@@ -96,15 +90,11 @@ function Welcome() {
 
                 <Stack direction={'vertical'} gap={3}>
                     <ExamplesGrid>
-                        <ChatExample title={"إنشاء استراتيجية تسويق"} description={"ما هي العوامل الأساسية التي يجب مراعاتها عند إنشاء استراتيجية تسويق رقمي شاملة؟"}/>
-
-                        <ChatExample title={"التخطيط لحملة على وسائل التواصل الاجتماعي"} description={"قم بصياغة حملة على وسائل التواصل الاجتماعي لبراند ملابس."}/>
-
-                        <ChatExample title={"زيادة معدلات النقر إلى الظهور"} description={"اقترح طرق مبتكرة لزيادة معدلات النقر على رسائل البريد الإلكتروني."}/>
-
-                        <ChatExample title={"تحسين تجربة خدمة العملاء لدينا"} description={"اقترح علينا كيف يمكننا تحسين تجربة خدمة العملاء لدينا؟"}/>
+                        {examples.map((example, index) => (
+                            <ChatExample key={index} title={example.title} description={example.description} onClick={() => handleSubmit(example.title, example.description)}/>
+                        ))}
                     </ExamplesGrid>
-                    <MessageInput onSubmit={handleSubmit}/>
+                    <MessageInput onSubmit={(message) => handleSubmit(message, message)} isDisabled={isLoading}/>
                 </Stack>
             </Stack>
         </Main>

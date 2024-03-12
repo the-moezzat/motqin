@@ -41,6 +41,7 @@ function MessageInput({onSubmit, isDisabled}) {
     function handleSubmit(e) {
         e.preventDefault();
         if(!message || isDisabled) return
+        setMessage('')
         onSubmit(message);
     }
 

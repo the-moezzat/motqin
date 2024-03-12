@@ -1,13 +1,15 @@
-import React from 'react';
-import {useParams} from "react-router-dom";
+import React, {useEffect, useState} from 'react';
+import {useParams, useSearchParams} from "react-router-dom";
 import styled from "styled-components";
 import MessageInput from "../_components/MessageInput";
-import ChooseModel from "../../../components/ui/ChooseModel";
 import {Stack} from "react-bootstrap";
 import Message from "./_components/Message";
 import {useQuery, useQueryClient, useMutation} from "react-query";
 import axios from "axios";
-
+import 'react-loading-skeleton/dist/skeleton.css'
+import ChatSkeleton from "./_components/ChatSkeleton";
+import {useDispatch, useSelector} from "react-redux";
+import {setCurrentConversation} from "../../../redux/slices/chatSlice";
 
 const Main = styled.div`
     padding: 14px;
@@ -27,20 +29,24 @@ const MessageColumn = styled.div`
 
 function NormalChat() {
     const {chatId} = useParams()
+    const [searchParams, setSearchParams] = useSearchParams();
     const queryClient = useQueryClient();
+    const [userMessage, setUserMessage] = React.useState('');
+    const dispatch = useDispatch();
+    const currentConversation = useSelector(state => state.chat.currentConversation);
 
-    const {isLoading, isError, data} = useQuery({
+    const {isLoading, isError, data, refetch, isRefetching} = useQuery({
         queryKey: ['chat'],
-        queryFn: async() => {
-        const response = await axios.get(`https://srv475086.hstgr.cloud/api/v1/chatbot/conversations/${chatId}/messages/`, {
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`
-            }
-        })
-        return response.data;
-    },
+        queryFn: async () => {
+            const response = await axios.get(`https://srv475086.hstgr.cloud/api/v1/chatbot/conversations/${currentConversation}/messages/`, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+            })
+            return response.data;
+        },
         staleTime: Infinity
-})
+    })
 
     const messages = !isLoading || data ? data?.results?.toReversed() : [];
 
@@ -57,29 +63,55 @@ function NormalChat() {
                 conversation: chatId
             };
 
-            const chat = await axios.post('https://srv475086.hstgr.cloud/api/v1/chatbot/conversations/82502563769/messages/create/', data, {headers})
+            const chat = await axios.post(`https://srv475086.hstgr.cloud/api/v1/chatbot/conversations/${chatId}/messages/create/`, data, {headers})
 
             return chat.data
         },
         onSuccess: async (data) => {
+            setUserMessage('')
+            setSearchParams({message: ''});
+            searchParams.delete('message')
             await queryClient.invalidateQueries('chat')
             console.log(data);
         }
     })
 
+    console.log(currentConversation);
+    useEffect(() => {
+        refetch()
+    }, [currentConversation]);
+
+    useEffect(() => {
+        dispatch(setCurrentConversation(chatId));
+        if (!searchParams.get('message')) return;
+        mutate(searchParams.get('message'))
+    }, [searchParams.get('message')])
+
+
     return (
         <Main>
             <MessageColumn gap={5} direction={"vertical"} dir={"rtl"}>
-                {messages.map((message) => {
-                    return <Message from={message.is_from_user ? 'user' : 'ai'} message={message.content} key={message.id}/>
-                })}
+                {(isLoading) ? (
+                        <ChatSkeleton/>
+                    ) :
+                    <>
+                        {messages?.map((message) => {
+                            return <Message from={message.is_from_user ? 'user' : 'ai'} message={message.content}
+                                            key={message.id}/>
+                        })}
 
-                {isWriting && <Message from={'ai'} message={"يكتب..."} isResponding={isWriting}/>}
+                        {userMessage && <Message from={'user'} message={userMessage}/>}
+                        {isWriting && <Message from={'ai'} message={"يكتب..."} isResponding={isWriting}/>}
+                    </>
+                }
             </MessageColumn>
 
             <Stack gap={3} direction={'horizontal'}>
-                <ChooseModel/>
-                <MessageInput onSubmit={mutate} isDisabled={isWriting}/>
+                {/*<ChooseModel/>*/}
+                <MessageInput onSubmit={(message) => {
+                    setUserMessage(message)
+                    mutate(message)
+                }} isDisabled={isWriting}/>
             </Stack>
         </Main>
     );
