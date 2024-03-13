@@ -3,8 +3,7 @@ import {useNavigate} from "react-router-dom";
 import * as Yup from "yup";
 import "./ChatSideBar.css";
 import {TfiSearch} from "react-icons/tfi";
-
-import {ErrorMessage, Field, Form, Formik} from "formik";
+// import {ErrorMessage, Field, Form, Formik} from "formik";
 import {getAllChats} from "../../../actions/chat";
 import {useQuery, useQueryClient} from "react-query";
 import {useDispatch, useSelector} from "react-redux";
@@ -16,6 +15,7 @@ import useDeleteChat from "../_hooks/useDeleteChat";
 import Skeleton from "react-loading-skeleton";
 import useStartChat from "../_hooks/useStartChat";
 import {BiPlusMedical} from "react-icons/bi";
+import Form from 'react-bootstrap/Form';
 
 
 const initialValues = {
@@ -38,8 +38,10 @@ const ChatLink = styled.p`
     &:hover {
         background-color: #f3f3f3;
     }
+
     &.active {
-        background-color: #f3f3f3;    }
+        background-color: #f3f3f3;
+    }
 `
 
 const ChatsContainer = styled.div`
@@ -53,7 +55,7 @@ const ChatsContainer = styled.div`
 
 const SidebarLayout = styled.div`
     display: grid;
-    height: calc(100dvh - 73px);
+    height: calc(100dvh - 54px);
     grid-template-rows: auto 1fr;
     border-left: 1px solid rgba(105, 43, 239, 0.2);
     padding: 16px;
@@ -107,17 +109,13 @@ const StartChatBtn = styled.button`
     }
 `
 
-const ChatSideBar = ({
-                         openSideBar,
-                         setOpenSideBar,
-                     }) => {
+const ChatSideBar = ({openSideBar}) => {
     const navigate = useNavigate();
     const [chats, setChats] = React.useState([]);
     const [staticData, setStaticData] = React.useState([]);
     const queryClient = useQueryClient();
     const dispatch = useDispatch();
     const {mutate, isLoading} = useDeleteChat()
-    const {startChat} = useStartChat()
     const currentChatId = useSelector(state => state.chat.currentConversation);
 
     const {isLoading: chatsLoading} = useQuery({
@@ -142,55 +140,24 @@ const ChatSideBar = ({
 
     return (
         <SidebarLayout dir="rtl">
-            {/*<div className=" toggleIcon">*/}
-
-            {/*    <IoClose*/}
-            {/*      onClick={() => setOpenSideBar(!openSideBar)}*/}
-            {/*      className=" openSideIcon"*/}
-            {/*    />*/}
-
-            {/*</div>*/}
             <div className="fixed">
                 <StartChatBtn
                     variant={'outline-primary'}
-                    onClick={() => {
-                        startChat({title: 'محادثة جديدة'}, {
-                            onSuccess: (data) => {
-                                console.log(data)
-                                queryClient.invalidateQueries('chats')
-                                navigate(`/chat/${data.id}`);
-                                dispatch(setCurrentConversation(data.id));
-                            }
-                        })
-                    }}
+                    onClick={() => navigate(`/chat`)}
                 >
                     <span> محادثة جديدة </span>
                     <BiPlusMedical/>
                 </StartChatBtn>
                 <div className="search-container">
-                    <Formik
-                        initialValues={initialValues}
-                        validationSchema={validationSchema}
-                        onSubmit={onSubmit}
-                    >
-                        {({values, handleChange}) => (
-                            <Form className="">
-                                <Field
-                                    className=""
-                                    type="text"
-                                    id="search"
-                                    name="search"
-                                    placeholder="بحث"
-                                    value={values.search}
-                                    onChange={(e) => {
-                                        handleChange(e); // Update Formik state
-                                        searchFunction(e.target.value); // Trigger search function
-                                    }}
-                                />
-                                <ErrorMessage name="search" component="div"/>
-                            </Form>
-                        )}
-                    </Formik>
+                    <Form.Control
+                        type="search"
+                        placeholder={'بحث'}
+                        aria-describedby="search"
+                        onChange={(e) => {
+                            searchFunction(e.target.value);
+                        }}
+                    />
+
                     <TfiSearch
                         style={{
                             color: "#001B79",

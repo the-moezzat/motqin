@@ -14,7 +14,7 @@ function ChatLayout() {
                 <Col>
                     <Outlet/>
                 </Col>
-                <Col md={"3"}>
+                <Col md={"3"} className={'d-none d-lg-block'}>
                     <ChatSideBar/>
                 </Col>
             </Row>

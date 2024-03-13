@@ -4,9 +4,9 @@ export default function useActiveModel() {
     const [searchParams, setSearchParams] = useSearchParams();
     const searchParamsModel = searchParams.get('model')
     const model = searchParamsModel ?
-        (searchParamsModel === 'ChatGPT' || searchParamsModel === 'GPT4' || searchParamsModel === 'Google PalM 2') ? searchParamsModel : 'Google PalM 2'
+        (searchParamsModel === 'ChatGPT' || searchParamsModel === 'GPT4' || searchParamsModel === 'Google PalM 2') ? searchParamsModel : 'ChatGPT'
         :
-        'Google PalM 2'
+        'ChatGPT'
 
     function changeModel(model) {
         setSearchParams({

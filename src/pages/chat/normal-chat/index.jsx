@@ -10,13 +10,14 @@ import 'react-loading-skeleton/dist/skeleton.css'
 import ChatSkeleton from "./_components/ChatSkeleton";
 import {useDispatch, useSelector} from "react-redux";
 import {setCurrentConversation} from "../../../redux/slices/chatSlice";
+import AiResponse from './_components/AiResponse';
 
 const Main = styled.div`
     padding: 14px;
     display: grid;
     gap: 14px;
     grid-template-rows: 1fr auto;
-    height: calc(100vh - 73px);
+    height: calc(100vh - 54px);
 `
 
 const MessageColumn = styled.div`
@@ -96,15 +97,26 @@ function NormalChat() {
                     ) :
                     <>
                         {messages?.map((message) => {
-                            return <Message from={message.is_from_user ? 'user' : 'ai'} message={message.content}
-                                            key={message.id}/>
+                            return <Message response={message} key={message.id}/>
                         })}
 
-                        {userMessage && <Message from={'user'} message={userMessage}/>}
-                        {isWriting && <Message from={'ai'} message={"يكتب..."} isResponding={isWriting}/>}
+                        {userMessage && <Message response={{
+                            content: userMessage,
+                            id: 1234564,
+                            is_from_user: true,
+                            reloaded_message: []
+                        }}/>}
+                        {isWriting && <Message response={{
+                            content: "يكتب...",
+                            id: 1234564,
+                            is_from_user: false,
+                            reloaded_message: []
+                        }} isResponding={isWriting}/>}
                     </>
                 }
             </MessageColumn>
+
+            {/*<AiResponse messages={['first', 'Second', 'Third']}/>*/}
 
             <Stack gap={3} direction={'horizontal'}>
                 {/*<ChooseModel/>*/}

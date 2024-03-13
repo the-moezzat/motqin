@@ -28,22 +28,29 @@ const Main = styled.div`
     padding: 14px;
     display: grid;
     grid-template-rows: auto 1fr;
-    height: calc(100vh - 73px);
+    height: calc(100vh - 54px);
 `
 const ChatLogo = styled.img`
     width: 200px;
+    @media (max-width: 768px) {
+        width: 150px;
+    }
 `
 const Headline = styled.h1`
-    font-size: 24px;
-    color: #5225CE;
     font-weight: 600;
-    text-align: center;
+    @media (max-width: 768px) {
+        font-size: 18px;
+    }
 `
 const Description = styled.p`
     font-size: 24px;
     color: #5225CE;
     font-weight: 300;
-    text-align: center;
+    
+    
+    @media (max-width: 768px) {
+        font-size: 18px;
+    }
 `
 
 const ChatHeader = styled.header`
@@ -52,6 +59,9 @@ const ChatHeader = styled.header`
     gap: 24px;
     align-items: center;
     justify-items: center;
+    text-align: center;
+    font-size: 24px;
+    color: #5225CE;
 `
 
 const ExamplesGrid = styled.div`
@@ -59,6 +69,11 @@ const ExamplesGrid = styled.div`
     grid-template-columns: repeat(2, 1fr);
     gap: 18px;
     margin-top: auto;
+    
+    @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+        gap: 9px;
+    }
 `
 
 function Welcome() {

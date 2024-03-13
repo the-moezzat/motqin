@@ -38,15 +38,10 @@
 .search-container {
   position: relative;
   width: 100%;
-  border: 1px solid #001a7944;
-  border-radius: 8px;
-  padding: 5px 5px;
 }
 .search-container input {
-  border: none;
   outline: none;
   padding-left: 20px;
-  text-align: center;
   color: #001a7944;
 }
 .search-container input::placeholder {
