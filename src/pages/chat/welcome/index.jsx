@@ -9,6 +9,7 @@ import {useNavigate} from "react-router-dom";
 import {useQueryClient} from "react-query";
 import {useDispatch, useSelector} from "react-redux";
 import {setCurrentConversation} from "../../../redux/slices/chatSlice";
+import logo from '../../../assets/logo.svg'
 
 const examples = [
     {
@@ -106,7 +107,7 @@ function Welcome() {
             </div>
             <Stack direction={'vertical'} gap={2}>
                 <ChatHeader>
-                    <ChatLogo src={'/src/assets/logo.svg'} alt={'Motqin logo'}/>
+                    <ChatLogo src={logo} alt={'Motqin logo'}/>
                     <div>
                         <Headline>
                             مرحبا بك في مُتقِن شات

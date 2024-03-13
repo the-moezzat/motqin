@@ -2,13 +2,15 @@ import React from 'react';
 import {Dropdown} from "react-bootstrap";
 import styled from "styled-components";
 import {PiCaretDownBold} from "react-icons/pi";
-import {useSearchParams} from "react-router-dom";
 import useActiveModel from "../_hooks/useActiveModel";
+import gpt3 from '../../../assets/models/gpt3.png'
+import gpt4 from '../../../assets/models/gpt4.png'
+import gemini from '../../../assets/models/gemini.png'
 
 const models = [
-    {name: 'GPT-3.5', img: '/src/assets/models/gpt3.png', value: "ChatGPT"},
-    {name: 'GPT-4', img: '/src/assets/models/gpt4.png', value: "GPT4"},
-    {name: 'Gemini', img: '/src/assets/models/gemini.png', value: "Google PalM 2"},
+    {name: 'GPT-3.5', img: gpt3, value: "ChatGPT"},
+    {name: 'GPT-4', img: gpt4, value: "GPT4"},
+    {name: 'Gemini', img: gemini, value: "Google PalM 2"},
 ]
 
 const Toggle = styled.div`
@@ -26,9 +28,7 @@ const ModelItem = styled(Dropdown.Item)`
     font-size: 14px;
     font-weight: 500;
     color: #001B79;
-    &.active {
-        background-color: #5225CE;
-    }
+   
     &:focus {
         background-color: transparent;
         color: inherit;

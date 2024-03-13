@@ -1,8 +1,6 @@
 import axios from "axios";
 import {useMutation} from "react-query";
-import messageToHtml from "../helpers/messageToHtml";
-import downloadFile from "../helpers/downloadFile";
-import toast from "react-hot-toast";
+import messageToHtml from "../_helpers/messageToHtml";
 
 export default function useDownloadMessage() {
     const downloadMessage = async ({fileType, message}) => {
@@ -20,10 +18,11 @@ export default function useDownloadMessage() {
                 const pdfFile = await axios.post(`https://srv475086.hstgr.cloud/api/v1/grammmer-checker/convert-to-pdf/`, content, {headers})
                 return pdfFile.data.pdf_url;
             case 'word':
-                const wordFile =  await axios.post(`https://srv475086.hstgr.cloud/api/v1/grammmer-checker/convert-to-word/`, content, {headers})
+                const wordFile = await axios.post(`https://srv475086.hstgr.cloud/api/v1/grammmer-checker/convert-to-word/`, content, {headers})
+                // window.open(wordFile.data.word_url, '_blank');
                 return wordFile.data.word_url;
             case 'txt':
-                const txtFile =  await axios.post(`https://srv475086.hstgr.cloud/api/v1/grammmer-checker/convert-to-text/`, content, {headers})
+                const txtFile = await axios.post(`https://srv475086.hstgr.cloud/api/v1/grammmer-checker/convert-to-text/`, content, {headers})
                 return txtFile.data.txt_url;
         }
     }
@@ -32,7 +31,8 @@ export default function useDownloadMessage() {
         mutationFn: downloadMessage,
         onSuccess: async (data) => {
             console.log(data);
-            downloadFile(data);
+
+            window.open(data, '_blank')
         }
     })
 

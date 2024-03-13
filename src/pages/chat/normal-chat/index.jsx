@@ -10,6 +10,7 @@ import 'react-loading-skeleton/dist/skeleton.css'
 import ChatSkeleton from "./_components/ChatSkeleton";
 import {useDispatch, useSelector} from "react-redux";
 import {setCurrentConversation} from "../../../redux/slices/chatSlice";
+import useActiveModel from "../_hooks/useActiveModel";
 
 const Main = styled.div`
     padding: 14px;
@@ -34,6 +35,7 @@ function NormalChat() {
     const [userMessage, setUserMessage] = React.useState('');
     const dispatch = useDispatch();
     const currentConversation = useSelector(state => state.chat.currentConversation);
+    const {model} = useActiveModel()
 
     const {isLoading, data, refetch} = useQuery({
         queryKey: ['chat'],
@@ -60,7 +62,8 @@ function NormalChat() {
 
             const data = {
                 content: message,
-                conversation: chatId
+                conversation: chatId,
+                ai_model: model
             };
 
             const chat = await axios.post(`https://srv475086.hstgr.cloud/api/v1/chatbot/conversations/${chatId}/messages/create/`, data, {headers})

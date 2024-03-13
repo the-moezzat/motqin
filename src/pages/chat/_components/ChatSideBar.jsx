@@ -1,30 +1,18 @@
 import React from "react";
 import {useNavigate} from "react-router-dom";
-import * as Yup from "yup";
 import "./ChatSideBar.css";
 import {TfiSearch} from "react-icons/tfi";
-// import {ErrorMessage, Field, Form, Formik} from "formik";
 import {getAllChats} from "../../../actions/chat";
 import {useQuery, useQueryClient} from "react-query";
-import {useDispatch, useSelector} from "react-redux";
-import {setCurrentConversation} from "../../../redux/slices/chatSlice";
+import {useDispatch} from "react-redux";
+import {setCurrentConversation, setNew} from "../../../redux/slices/chatSlice";
 import styled from "styled-components";
 import {PiTrash} from "react-icons/pi";
 import Model from "../../../components/ui/model";
 import useDeleteChat from "../_hooks/useDeleteChat";
 import Skeleton from "react-loading-skeleton";
-import useStartChat from "../_hooks/useStartChat";
 import {BiPlusMedical} from "react-icons/bi";
 import Form from 'react-bootstrap/Form';
-
-
-const initialValues = {
-    search: "",
-};
-
-const validationSchema = Yup.object({
-    search: Yup.string(),
-});
 
 const ChatLink = styled.p`
     text-wrap: nowrap;
@@ -36,10 +24,6 @@ const ChatLink = styled.p`
     position: relative;
 
     &:hover {
-        background-color: #f3f3f3;
-    }
-
-    &.active {
         background-color: #f3f3f3;
     }
 `
@@ -116,7 +100,6 @@ const ChatSideBar = ({openSideBar}) => {
     const queryClient = useQueryClient();
     const dispatch = useDispatch();
     const {mutate, isLoading} = useDeleteChat()
-    const currentChatId = useSelector(state => state.chat.currentConversation);
 
     const {isLoading: chatsLoading} = useQuery({
         queryKey: ['chats'],
@@ -127,10 +110,6 @@ const ChatSideBar = ({openSideBar}) => {
         }
     })
 
-    const onSubmit = (values, {setSubmitting, resetForm}) => {
-        setSubmitting(false);
-        resetForm();
-    };
     const searchFunction = (searchTerm) => {
         const filteredChats = staticData.filter((chat) =>
             chat.title.toLowerCase().includes(searchTerm.toLowerCase())
@@ -183,10 +162,11 @@ const ChatSideBar = ({openSideBar}) => {
                     chats?.toReversed().map((chat) => (
                         <div key={chat.id} className={'position-relative'}>
                             <ChatLink onClick={async () => {
-                                navigate(`/chat/${chat.id}`);
+                                dispatch(setNew(false))
                                 dispatch(setCurrentConversation(chat.id));
+                                navigate(`/chat/${chat.id}`);
                                 // setShowChat(chat.id);
-                            }} className={`${currentChatId === chat.id ? 'active' : ''}`}>
+                            }}>
                                 {chat.title}
                             </ChatLink>
                             <BtnActionGroup className={'position-absolute top-50 translate-middle-y start-0 z-4'}>

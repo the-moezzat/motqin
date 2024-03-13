@@ -5,8 +5,8 @@ import toast from "react-hot-toast";
 export default async function downloadFile(fileUrl) {
     try {
         await toast.promise(
-            axios.get(fileUrl, {
-                responseType: 'blob', // Important
+            axios.post(fileUrl, {
+                responseType: 'blob'
             }),
             {
                 loading: 'جاري تصدير الرسالة...',

@@ -11,6 +11,8 @@ import Carousel from 'react-bootstrap/Carousel';
 import {useSelector} from "react-redux";
 import useReloadMessage from "../../_hooks/useReloadMessage";
 import toast from "react-hot-toast";
+import motqinLogo from '../../../../assets/logo.svg'
+import avatar from '../../../../assets/Images/Avatar.jpg'
 
 const ScrollIndicatior = styled.div`
     display: flex;
@@ -71,7 +73,7 @@ function Message({response, isResponding, from}) {
 
     return (
         <Row>
-            <Avatar src={`/src/assets/${from === 'user' ? 'images/Avatar.jpg' : 'logo.svg'}`} alt={'user image'}
+            <Avatar src={response.is_from_user ? avatar : motqinLogo} alt={'user image'}
                     className={'align-items-end'}/>
             <div>
                 <Carousel slide={false} controls={false} indicators={false} activeIndex={activeIndex}>

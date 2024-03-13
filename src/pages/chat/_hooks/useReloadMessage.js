@@ -13,7 +13,7 @@ export default function useReloadMessage() {
 
             console.log(`https://srv475086.hstgt.cloud/api/v1/chatbot/conversations/${chatId}/messages/${messageId}/reload-response/`)
 
-            const chat = await axios.post(`https://srv475086.hstgr.cloud/api/v1/chatbot/conversations/${chatId}/messages/${messageId}/reload-response/`, {headers})
+            const chat = await axios.post(`https://srv475086.hstgr.cloud/api/v1/chatbot/conversations/${chatId}/messages/${messageId}/reload-response/`, {}, {headers})
 
             return chat.data
         }, onSuccess: async (data) => {

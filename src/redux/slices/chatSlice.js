@@ -1,7 +1,10 @@
 import {createSlice} from "@reduxjs/toolkit";
 
 const initialState = {
-    currentConversation: null,
+    currentConversation: '',
+    new: false,
+    starterMessage: '',
+    isWriting: false
 }
 
 export const chatSlice = createSlice({
@@ -10,9 +13,18 @@ export const chatSlice = createSlice({
     reducers: {
         setCurrentConversation: (state, action) => {
             state.currentConversation = action.payload
+        },
+        setNew: (state, action) => {
+            state.new = action.payload
+        },
+        setStarterMessage: (state, action) => {
+            state.starterMessage = action.payload
+        },
+        setIsWriting: (state, action) => {
+            state.isWriting = action.payload
         }
     }
 });
 
-export const {setCurrentConversation} = chatSlice.actions
+export const {setCurrentConversation, setIsWriting, setNew, setStarterMessage} = chatSlice.actions
 export default chatSlice.reducer

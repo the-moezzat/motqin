@@ -4,7 +4,7 @@ import {Modal, Stack} from "react-bootstrap";
 import styled from "styled-components";
 import {BsFiletypeTxt} from "react-icons/bs";
 import {PiFileDoc, PiFileHtml, PiFilePdf} from "react-icons/pi";
-import messageToHtml from "../../helpers/messageToHtml";
+import messageToHtml from "../../_helpers/messageToHtml";
 import useDownloadMessage from "../../_hooks/useDownloadMessage";
 import toast from "react-hot-toast";
 
@@ -125,6 +125,13 @@ export default function DownloadMessage({trigger, message}) {
                                     message = messageToHtml(message);
                                     const blob = new Blob([message], {type: 'text/html'});
                                     saveAs(blob, 'message.html');
+                                    toast.success('تم تصدير الرسالة بنجاح');
+                                    return;
+                                }
+                                if (fileType === 'txt') {
+                                    message = messageToHtml(message);
+                                    const blob = new Blob([message], {type: 'text/plain'});
+                                    saveAs(blob, 'message.txt');
                                     toast.success('تم تصدير الرسالة بنجاح');
                                     return;
                                 }
