@@ -29,7 +29,10 @@ export default function useStartChat() {
             // const firstMessage = await axios.post(`https://srv475086.hstgr.cloud/api/v1/chatbot/conversations/${chat.data.id}/messages/create/`, messageData, {headers})
 
             return chat.data;
-        }
+        },
+        // onSuccess(data) {
+        //     navigate(`/chat/${data.id}?message=${message}`)
+        // }
     })
 
     return {startChat, isLoading, isError, data}

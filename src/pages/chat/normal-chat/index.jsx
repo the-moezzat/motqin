@@ -10,7 +10,6 @@ import 'react-loading-skeleton/dist/skeleton.css'
 import ChatSkeleton from "./_components/ChatSkeleton";
 import {useDispatch, useSelector} from "react-redux";
 import {setCurrentConversation} from "../../../redux/slices/chatSlice";
-import AiResponse from './_components/AiResponse';
 
 const Main = styled.div`
     padding: 14px;

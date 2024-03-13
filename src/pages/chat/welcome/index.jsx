@@ -7,6 +7,8 @@ import styled from "styled-components";
 import useStartChat from "../_hooks/useStartChat";
 import {useNavigate} from "react-router-dom";
 import {useQueryClient} from "react-query";
+import {useDispatch, useSelector} from "react-redux";
+import {setCurrentConversation} from "../../../redux/slices/chatSlice";
 
 const examples = [
     {
@@ -81,14 +83,15 @@ function Welcome() {
     const {startChat, isLoading} = useStartChat()
     const navigate = useNavigate();
     const queryClient = useQueryClient();
-
+    const dispatch = useDispatch()
 
     const handleSubmit = (title, message) => {
         startChat({title, message}, {
-            onSuccess: (data) => {
+            onSuccess: async (data) => {
                 console.log(data)
                 navigate(`/chat/${data.id}?message=${message}`)
-                queryClient.invalidateQueries('chats');
+                dispatch(setCurrentConversation(data.id));
+                await queryClient.invalidateQueries('chats');
             },
             onError: (error) => {
                 console.log(error)

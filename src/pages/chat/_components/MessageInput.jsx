@@ -7,7 +7,8 @@ import PropTypes from "prop-types";
 
 
 const Message = styled(Form.Control)`
-    padding-right: 42px;
+    padding-left: 38px;
+    padding-right: 38px;
     font-size: 14px;
     &::placeholder {
         font-size: 12px;

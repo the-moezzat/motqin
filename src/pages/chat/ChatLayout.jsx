@@ -3,12 +3,12 @@ import Navbar from "../../Util/Navbar";
 import {Row, Col, Stack} from 'react-bootstrap';
 import {Outlet} from "react-router-dom";
 import ChatSideBar from "./_components/ChatSideBar";
-import Model from "../../components/ui/model";
-
+import {Toaster} from "react-hot-toast";
 
 function ChatLayout() {
     return (
         <div>
+            <Toaster/>
             <Navbar/>
             <Row>
                 <Col>

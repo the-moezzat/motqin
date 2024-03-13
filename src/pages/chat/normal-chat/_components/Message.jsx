@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import styled from "styled-components";
-import PropTypes from "prop-types";
 import {PiArrowClockwise, PiArrowRight, PiCopy, PiDownloadSimple} from "react-icons/pi";
 import Button from "react-bootstrap/Button";
 import useStartChat from "../../_hooks/useStartChat";
@@ -11,6 +10,7 @@ import ReactMarkdown from 'react-markdown'
 import Carousel from 'react-bootstrap/Carousel';
 import {useSelector} from "react-redux";
 import useReloadMessage from "../../_hooks/useReloadMessage";
+import toast from "react-hot-toast";
 
 const ScrollIndicatior = styled.div`
     display: flex;
@@ -77,7 +77,7 @@ function Message({response, isResponding, from}) {
                 <Carousel slide={false} controls={false} indicators={false} activeIndex={activeIndex}>
                     {messages.map(message => (
                         <Carousel.Item key={message}>
-                            <MessageText writing={isResponding} >
+                            <MessageText writing={isResponding}>
                                 <ReactMarkdown>{message}</ReactMarkdown>
                             </MessageText>
                         </Carousel.Item>))
@@ -86,9 +86,9 @@ function Message({response, isResponding, from}) {
                 {!response.is_from_user && !isResponding &&
                     <IconRow>
                         <MessageActionBtn variant={''} onClick={() => {
-                            startChat({title: message.split(' ').slice(0, 10).join(' ').replaceAll('*', ''), message}, {
+                            startChat({title: messages[activeIndex].split(' ').slice(0, 10).join(' ').replaceAll('*', ''), message: messages[activeIndex]}, {
                                 onSuccess: async (data) => {
-                                    navigate('/chat/' + data.id + '?message=' + message);
+                                    navigate('/chat/' + data.id + '?message=' + messages[activeIndex]);
                                     await queryClient.invalidateQueries('chats')
                                 }
                             });
@@ -96,7 +96,12 @@ function Message({response, isResponding, from}) {
                             <PiArrowRight/>
                         </MessageActionBtn>
                         <MessageActionBtn variant={''} onClick={async () => {
-                            await navigator.clipboard.writeText(message);
+                            // await navigator.clipboard.writeText(messages[activeIndex]);
+                            await toast.promise(navigator.clipboard.writeText(messages[activeIndex]), {
+                                success: () => 'تم نسخ النص بنجاح',
+                                error: () => 'حدث خطأ أثناء نسخ النص'
+                            })
+                            // toast.success("تم نسخ النص بنجاح")
                         }}>
                             <PiCopy/>
                         </MessageActionBtn>
@@ -107,7 +112,7 @@ function Message({response, isResponding, from}) {
                             <PiArrowClockwise/>
                         </MessageActionBtn>
 
-                        <DownloadMessage trigger={<MessageActionBtn variant={''}>
+                        <DownloadMessage message={messages[activeIndex]} trigger={<MessageActionBtn variant={''}>
                             <PiDownloadSimple/>
                         </MessageActionBtn>}
                         />

@@ -2,26 +2,32 @@ import {useState} from "react";
 import Button from "react-bootstrap/Button";
 import {Modal, Stack} from "react-bootstrap";
 import styled from "styled-components";
-import {BsFiletypeHtml, BsFiletypeTxt} from "react-icons/bs";
-import {PiFileDoc, PiFilePdf} from "react-icons/pi";
-import { PiFileHtml } from "react-icons/pi";
+import {BsFiletypeTxt} from "react-icons/bs";
+import {PiFileDoc, PiFileHtml, PiFilePdf} from "react-icons/pi";
+import messageToHtml from "../../helpers/messageToHtml";
+import useDownloadMessage from "../../_hooks/useDownloadMessage";
+import toast from "react-hot-toast";
 
 const downloadOptions = [
     {
         title: 'TXT',
         icon: <BsFiletypeTxt/>,
+        fileType: 'txt'
     },
     {
         title: 'HTML',
         icon: <PiFileHtml/>,
+        fileType: 'html'
     },
     {
         title: 'DOC',
-        icon: <PiFileDoc/>
+        icon: <PiFileDoc/>,
+        fileType: 'word'
     },
     {
         title: 'PDF',
-        icon: <PiFilePdf/>
+        icon: <PiFilePdf/>,
+        fileType: 'pdf'
     }
 ]
 
@@ -45,7 +51,7 @@ const ModalView = styled.div`
     @media (max-width: 768px) {
         padding: 10px;
     }
-    
+
     & > h4 {
         color: #5225CE;
         font-weight: 700;
@@ -90,8 +96,9 @@ const Options = styled.div`
     align-items: center;
     margin: 18px 0;
 `
-export default function DownloadMessage({trigger}) {
+export default function DownloadMessage({trigger, message}) {
     const [show, setShow] = useState(false);
+    const {download, isDownloading, downloadedLinkFile} = useDownloadMessage();
 
     return (
         <div>
@@ -112,8 +119,19 @@ export default function DownloadMessage({trigger}) {
                 <ModalView>
                     <h4 id="modal-1-label">تصدير</h4>
                     <Options>
-                        {downloadOptions.map(({title, icon}, index) => (
-                            <FileBtn key={index}>
+                        {downloadOptions.map(({title, icon, fileType}, index) => (
+                            <FileBtn key={index} onClick={() => {
+                                if (fileType === 'html') {
+                                    message = messageToHtml(message);
+                                    const blob = new Blob([message], {type: 'text/html'});
+                                    saveAs(blob, 'message.html');
+                                    toast.success('تم تصدير الرسالة بنجاح');
+                                    return;
+                                }
+                                download({fileType, message})
+
+                                // console.log(messageToHtml(message));
+                            }}>
                                 {icon}
                                 <span>{title}</span>
                             </FileBtn>

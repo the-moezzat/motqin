@@ -13,14 +13,12 @@ const AppLayout = ({ chats, setChats, showChat, setShowChat }) => {
   return (
     <div className="overflow-x-hidden       ">
       <div>
-     
         <div>
           <main >
             <Outlet />
           </main>
         </div>
       </div>
-  
     </div>
   );
 };
