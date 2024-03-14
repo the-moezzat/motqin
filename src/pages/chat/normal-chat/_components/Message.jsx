@@ -13,6 +13,7 @@ import useReloadMessage from "../../_hooks/useReloadMessage";
 import toast from "react-hot-toast";
 import motqinLogo from '../../../../assets/logo.svg'
 import avatar from '../../../../assets/Images/Avatar.jpg'
+import {AiOutlineLoading3Quarters} from "react-icons/ai";
 
 const ScrollIndicatior = styled.div`
     display: flex;
@@ -37,7 +38,7 @@ const Row = styled.div`
     width: 85%;
 `
 
-const MessageText = styled.p`
+const MessageText = styled.div`
     font-size: 16px;
     margin-bottom: 4px;
     color: ${props => props.writing ? "rgba(0,27,121,0.5)" : '#001B79'};
@@ -58,6 +59,23 @@ const MessageActionBtn = styled(Button)`
     &:active {
         border: none;
     }
+`
+const LoadingInde = styled.div`
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    animation: spin 2s linear infinite;
 `
 
 function Message({response, isResponding, from}) {
@@ -88,7 +106,10 @@ function Message({response, isResponding, from}) {
                 {!response.is_from_user && !isResponding &&
                     <IconRow>
                         <MessageActionBtn variant={''} onClick={() => {
-                            startChat({title: messages[activeIndex].split(' ').slice(0, 10).join(' ').replaceAll('*', ''), message: messages[activeIndex]}, {
+                            startChat({
+                                title: messages[activeIndex].split(' ').slice(0, 10).join(' ').replaceAll('*', ''),
+                                message: messages[activeIndex]
+                            }, {
                                 onSuccess: async (data) => {
                                     navigate('/chat/' + data.id + '?message=' + messages[activeIndex]);
                                     await queryClient.invalidateQueries('chats')
@@ -98,21 +119,30 @@ function Message({response, isResponding, from}) {
                             <PiArrowRight/>
                         </MessageActionBtn>
                         <MessageActionBtn variant={''} onClick={async () => {
-                            // await navigator.clipboard.writeText(messages[activeIndex]);
                             await toast.promise(navigator.clipboard.writeText(messages[activeIndex]), {
                                 success: () => 'تم نسخ النص بنجاح',
                                 error: () => 'حدث خطأ أثناء نسخ النص'
                             })
-                            // toast.success("تم نسخ النص بنجاح")
                         }}>
                             <PiCopy/>
                         </MessageActionBtn>
 
-                        <MessageActionBtn variant={''} onClick={() => {
-                            reloadMessage({messageId: response.id, chatId})
-                        }}>
-                            <PiArrowClockwise/>
-                        </MessageActionBtn>
+                        {isReloadingNewMessage ?
+                            <MessageActionBtn variant={''}>
+                                <LoadingInde><AiOutlineLoading3Quarters/></LoadingInde>
+                            </MessageActionBtn>
+                            :
+                            <MessageActionBtn variant={''} onClick={() => {
+                                reloadMessage({messageId: response.id, chatId}, {
+                                    onSuccess(data) {
+                                        // console.log(data);
+                                        if (data)
+                                            setActiveIndex((state) => data?.response.length)
+                                    }
+                                })
+                            }}>
+                                <PiArrowClockwise/>
+                            </MessageActionBtn>}
 
                         <DownloadMessage message={messages[activeIndex]} trigger={<MessageActionBtn variant={''}>
                             <PiDownloadSimple/>
