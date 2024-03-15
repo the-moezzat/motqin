@@ -80,6 +80,11 @@ const ExamplesGrid = styled.div`
     }
 `
 
+const StartChat = styled(Stack)`
+ width: 80%;
+    margin: 0 auto;
+`
+
 function Welcome() {
 
     const {startChat, isLoading} = useStartChat()
@@ -119,7 +124,7 @@ function Welcome() {
                     </div>
                 </ChatHeader>
 
-                <Stack direction={'vertical'} gap={3}>
+                <StartChat direction={'vertical'} gap={3}>
                     <ExamplesGrid>
                         {examples.map((example, index) => (
                             <ChatExample key={index} title={example.title} description={example.description}
@@ -127,7 +132,7 @@ function Welcome() {
                         ))}
                     </ExamplesGrid>
                     <MessageInput onSubmit={(message) => handleSubmit(message, message)} isDisabled={isLoading}/>
-                </Stack>
+                </StartChat>
             </Stack>
         </Main>
     );

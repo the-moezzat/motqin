@@ -131,24 +131,18 @@ const Navbar = () => {
                         </div>
                     )}
                 </div>
-                {/*<div*/}
-                {/*    className="upgrade"*/}
-                {/*>*/}
-                {/*    تصدير*/}
-                {/*</div>*/}
-                {/*<div*/}
-                {/*    className="text-basic ms-3"*/}
-                {/*>*/}
-                {/*    <TbPointFilled className="text-basic"/>*/}
-                {/*    <span>الاستخدام</span>*/}
-                {/*</div>*/}
+                <div
+                    className="upgrade d-none d-lg-flex"
+                >
+                    ترقيه
+                </div>
+                <div
+                    className="text-basic ms-2 d-none d-lg-block"
+                >
+                    <TbPointFilled className="text-sm-center"/>
+                    <span>الاستخدام</span>
+                </div>
 
-                {/*<div*/}
-                {/*    className="text-basic ms-3"*/}
-                {/*>*/}
-
-                {/*    <span className="font-number">1/50000</span>*/}
-                {/*</div>*/}
             </div>
 
             <div className="logo d-flex me-3 align-items-center  justify-content-center">
