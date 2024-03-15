@@ -14,7 +14,7 @@ const Title = styled.h3`
 `
 
 const Description = styled.p`
-    font-size: 12px;
+    font-size: 10px;
     color: rgba(0, 27, 121, 0.5);
     margin-bottom: 0;
 `

@@ -13,7 +13,7 @@ import useDeleteChat from "../_hooks/useDeleteChat";
 import Skeleton from "react-loading-skeleton";
 import {BiPlusMedical} from "react-icons/bi";
 import Form from 'react-bootstrap/Form';
-
+import { AiOutlinePlus } from "react-icons/ai";
 const ChatLink = styled.p`
     text-wrap: nowrap;
     cursor: pointer;
@@ -81,6 +81,7 @@ const StartChatBtn = styled.button`
     gap: 8px;
     transition: background-color 0.3s;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.07);
+    position: relative;
 
     &:focus {
         outline: none;
@@ -89,6 +90,14 @@ const StartChatBtn = styled.button`
     &:hover {
         background-color: #f3f3f3;
     }
+`
+
+const PlusIcon = styled.span`
+    position: absolute;
+    left: 8px;
+    top: 50%;
+    transform: translateY(-50%)
+    
 `
 
 const ChatSideBar = ({offCanvasSelect}) => {
@@ -126,7 +135,10 @@ const ChatSideBar = ({offCanvasSelect}) => {
                     }}
                 >
                     <span> محادثة جديدة </span>
-                    <BiPlusMedical/>
+                    <PlusIcon>
+                        <BiPlusMedical/>
+                        {/*<AiOutlinePlus />*/}
+                    </PlusIcon>
                 </StartChatBtn>
                 <div className="search-container">
                     <Form.Control

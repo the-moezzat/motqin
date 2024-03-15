@@ -81,8 +81,12 @@ const ExamplesGrid = styled.div`
 `
 
 const StartChat = styled(Stack)`
- width: 80%;
+ width: 75%;
     margin: 0 auto;
+    
+    @media (max-width: 950px) {
+        width: 100%;
+    }
 `
 
 function Welcome() {
