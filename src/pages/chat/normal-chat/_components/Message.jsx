@@ -118,6 +118,7 @@ function Message({response, isResponding, from}) {
                         }}>
                             <PiArrowRight/>
                         </MessageActionBtn>
+
                         <MessageActionBtn variant={''} onClick={async () => {
                             await toast.promise(navigator.clipboard.writeText(messages[activeIndex]), {
                                 success: () => 'تم نسخ النص بنجاح',

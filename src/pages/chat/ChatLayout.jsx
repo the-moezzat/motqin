@@ -4,6 +4,15 @@ import {Row, Col, Stack} from 'react-bootstrap';
 import {Outlet} from "react-router-dom";
 import ChatSideBar from "./_components/ChatSideBar";
 import {Toaster} from "react-hot-toast";
+import styled from "styled-components";
+
+const RightCol = styled(Col)`
+    border-left: 1px solid rgba(105, 43, 239, 0.2);
+    padding: 16px;
+    @media (max-width: 768px) {
+        display: none;
+    }
+`
 
 function ChatLayout() {
     return (
@@ -14,9 +23,9 @@ function ChatLayout() {
                 <Col>
                     <Outlet/>
                 </Col>
-                <Col md={"3"} className={'d-none d-lg-block'}>
+                <RightCol md={"2"} className={'d-none d-lg-block'}>
                     <ChatSideBar/>
-                </Col>
+                </RightCol>
             </Row>
         </div>
     );

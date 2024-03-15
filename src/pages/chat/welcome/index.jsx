@@ -34,19 +34,20 @@ const Main = styled.div`
     height: calc(100vh - 54px);
 `
 const ChatLogo = styled.img`
-    width: 200px;
+    width: 150px;
     @media (max-width: 768px) {
         width: 150px;
     }
 `
 const Headline = styled.h1`
     font-weight: 600;
+    font-size: 24px;
     @media (max-width: 768px) {
         font-size: 18px;
     }
 `
 const Description = styled.p`
-    font-size: 24px;
+    font-size: 18px;
     color: #5225CE;
     font-weight: 300;
     
@@ -70,7 +71,7 @@ const ChatHeader = styled.header`
 const ExamplesGrid = styled.div`
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 18px;
+    gap: 12px;
     margin-top: auto;
     
     @media (max-width: 768px) {

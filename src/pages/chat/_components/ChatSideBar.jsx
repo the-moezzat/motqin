@@ -41,8 +41,6 @@ const SidebarLayout = styled.div`
     display: grid;
     height: calc(100dvh - 54px);
     grid-template-rows: auto 1fr;
-    border-left: 1px solid rgba(105, 43, 239, 0.2);
-    padding: 16px;
     gap: 16px;
 `
 
@@ -93,7 +91,7 @@ const StartChatBtn = styled.button`
     }
 `
 
-const ChatSideBar = ({openSideBar}) => {
+const ChatSideBar = ({offCanvasSelect}) => {
     const navigate = useNavigate();
     const [chats, setChats] = React.useState([]);
     const [staticData, setStaticData] = React.useState([]);
@@ -122,7 +120,10 @@ const ChatSideBar = ({openSideBar}) => {
             <div className="fixed">
                 <StartChatBtn
                     variant={'outline-primary'}
-                    onClick={() => navigate(`/chat`)}
+                    onClick={() => {
+                        navigate(`/chat`)
+                        offCanvasSelect()
+                    }}
                 >
                     <span> محادثة جديدة </span>
                     <BiPlusMedical/>
@@ -145,7 +146,7 @@ const ChatSideBar = ({openSideBar}) => {
                         alt="search"
                     />
                 </div>
-                {openSideBar && <p className="head-of-chats">اخر محادثات</p>}
+                {/*{openSideBar && <p className="head-of-chats">اخر محادثات</p>}*/}
             </div>
 
             <ChatsContainer>
@@ -165,6 +166,7 @@ const ChatSideBar = ({openSideBar}) => {
                                 dispatch(setNew(false))
                                 dispatch(setCurrentConversation(chat.id));
                                 navigate(`/chat/${chat.id}`);
+                                offCanvasSelect()
                                 // setShowChat(chat.id);
                             }}>
                                 {chat.title}
@@ -182,6 +184,7 @@ const ChatSideBar = ({openSideBar}) => {
                                                 console.log('deleted')
                                             }
                                         })
+                                        offCanvasSelect()
                                     }}
                                 />
                             </BtnActionGroup>

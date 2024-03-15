@@ -9,7 +9,7 @@ const Example = styled.div`
 `
 
 const Title = styled.h3`
-    font-size: 16px;
+    font-size: 14px;
     color: #001B79;
 `
 

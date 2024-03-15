@@ -20,12 +20,12 @@ function HistoryOffcanvas() {
             {/*    Resize your browser to show the responsive offcanvas toggle.*/}
             {/*</Alert>*/}
 
-            <Offcanvas show={show} onHide={handleClose} responsive="lg">
+            <Offcanvas show={show} onHide={handleClose} responsive="lg" placement={'end'}>
                 {/*<Offcanvas.Header closeButton>*/}
                 {/*    <Offcanvas.Title>Responsive offcanvas</Offcanvas.Title>*/}
                 {/*</Offcanvas.Header>*/}
                 <Offcanvas.Body>
-                    <ChatSideBar/>
+                    <ChatSideBar offCanvasSelect={handleClose}/>
                 </Offcanvas.Body>
             </Offcanvas>
         </>
